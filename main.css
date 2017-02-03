@@ -8,12 +8,36 @@
   margin: 0 auto;
 }
 
-.incorrect {
-
+.answers {
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.choice {
+  display: block;
+  padding: 5px;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+.correct {
+  display: block;
+  padding: 5px;
+  border: 3px solid green;
+  border-radius: 5px
 }
 
-.correct {
+.incorrect {
+  display: block;
+  padding: 5px;
+  border: 3px solid red;
+  border-radius: 5px;
+}
 
+#continue {
+  display: block;
+  border: 1px dotted black;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #finalScore {
