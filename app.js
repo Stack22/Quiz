@@ -30,7 +30,10 @@ var state = {
   praises: ["Kick ass man!", "Aaaand... Across The Line!", "Well done old chap!"],
   admonishments: ["Sorry bud, if ya ain't first, you're last", "DOH! Try harder", "Juuuuust a bit outside"],
   correctTotal: 0,
-  
+  currentQuestionIndex: 0,
+  route: "start",
+  lastAnswerCorrect: false,
+  feedbackRandom: 0
 ];
 
 // Create State

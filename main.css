@@ -1,6 +1,10 @@
 * {
   box-sizing: border-box;
-  font-family: monospace;
+  font-family: verdana monospace;
+}
+
+.hidden {
+  display: none;
 }
 
 .container {
@@ -8,7 +12,7 @@
   margin: 0 auto;
 }
 
-.answers {
+#answers, #question {
   max-width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -18,12 +22,15 @@
   padding: 5px;
   border: 1px solid grey;
   border-radius: 5px;
+  font-size: 14px;
+  font-family: sans-serif;
 }
 .correct {
   display: block;
   padding: 5px;
   border: 3px solid green;
-  border-radius: 5px
+  border-radius: 5px;
+  background-color: lightgreen;
 }
 
 .incorrect {
@@ -31,14 +38,15 @@
   padding: 5px;
   border: 3px solid red;
   border-radius: 5px;
+  background-color: pink;
 }
 
-#continue {
+/*#continue {
   display: block;
   border: 1px dotted black;
   margin-left: auto;
   margin-right: auto;
-}
+}*/
 
 #finalScore {
 
