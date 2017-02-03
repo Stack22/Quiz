@@ -1,11 +1,36 @@
 // State
-var state = [
-  {
-    question: 0,
-    answer: "",
-    correct: 0,
-    incorrect: 0
-  }
+var state = {
+  questions: [
+    {
+      question: "Understeer can happen under braking, or accelleration. What definition below BEST describes understeer?"
+      answers: ["The need to turn the steering wheel more", "When steering input has little to no affect on vehicle direction", "When the front tires are pushed beyong their grip limit, necessitating further driving input adjustments", "When the front of the car hits the wall"],
+      correctAnsIndex: 2
+    },
+    {
+      question: "Why is it generally considered bad form to use a lower gear to help slow a vehicle under braking?",
+      answers: ["Because engines aren't designed to slow cars", "Because it can lead to an unbalanced vehicle", "Too many actions at once can lead to mistakes", "All of the above"],
+      correctAnsIndex: 3
+    },
+    {
+      question: "What is 'The Racing Line'?",
+      answers: ["Any path on the track used to gain or maintain an advantage in position or time", "the 'worn' part of any race circuit", "The line used in qualifying by top-level racers"],
+      correctAnsIndex: 2
+    },
+    {
+      question: "True or False: The fastest limit around any corner involves some loss of grip",
+      answers: ["True", "False"],
+      correctAnsIndex: 0
+    },
+    {
+      question: "Is 'Rubbing Racing'?",
+      answers: ["Yes", "No"],
+      correctAnsIndex: 0
+    }
+  ],
+  praises: ["Kick ass man!", "Aaaand... Across The Line!", "Well done old chap!"],
+  admonishments: ["Sorry bud, if ya ain't first, you're last", "DOH! Try harder", "Juuuuust a bit outside"],
+  correctTotal: 0,
+  
 ];
 
 // Create State
