@@ -31,6 +31,7 @@ var state = {
   admonishments: ["Sorry bud, if ya ain't first, you're last", "DOH! Try harder", "Juuuuust a bit outside"],
   correctTotal: 0,
   currentQuestionIndex: 0,
+  currentChoice: "",
   route: "start",
   lastAnswerCorrect: false,
   feedbackRandom: 0
@@ -88,7 +89,7 @@ function renderQuestion(state, questionElement) {
 function renderAnswers(state, answersElement) {
   var answersArray = state.questions[state.currentQuestionIndex].answers;
   var content = answersArray.map(function(item) {
-    return '<label class="choice js-choice"><input type="radio" name="answer">' + item + '</label><br>';
+    return '<label class="choice js-choice"><input type="radio" name="answer" class="js-choice-item">' + item + '</label><br>';
   });
   answersElement.html(content);
 };
@@ -123,19 +124,25 @@ function handleStart(state, startButton, startTextElement, headerElement, questi
   });
 };
 
-function handleChoice (state, answersElement, submitButton) {
-  $(answersElement).click(function(event) {
-    showButton(submitButton);
-  });
+function getAnswerChoice(state, answersElement, choiceItemID) {
+  answersElement.on('click', choiceItemID, function(event) {
+    var choice = $(event.currentTarget.closest('label')).text();
+    });
+    return choice;
 }
 
-function handleSubmit(state, headerElement, questionElement, answersElement, submitButton, continueButton) {
-  submitButton.click(function(event) {
-    // renderQuestion(state, questionElement);
-    // renderAnswers(state, answersElement);
+function handleChoice (state, answersElement, submitButton, choiceItemID) {
+    console.log(getAnswerChoice(state, answersElement, choiceItemID));
+    showButton(submitButton);
+};
 
+function handleSubmit(state, headerElement, questionElement, submitButton, continueButton) {
+
+  submitButton.click(function(event) {
     hideButton(submitButton);
     showButton(continueButton);
+
+    // checkAnswer(state, choice)
   });
   // updateCorrect()
   // updateIncorrect()
@@ -168,6 +175,8 @@ var startTextElement = $(".js-start-text");
 var headerElement = $(".js-header");
 var questionElement = $(".js-question-element");
 var answersElement = $("form[name='the-choices']");
+var choiceItemID = (".js-choice-item");
+
 var startButton = $("#js-start");
 var submitButton = $("#js-submit");
 var continueButton = $("#js-continue");
@@ -175,8 +184,8 @@ var finishButton = $("#js-finish");
 
 $(function() {
   handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton);
-  handleChoice(state, answersElement, submitButton);
-  handleSubmit(state, headerElement, questionElement, answersElement, submitButton, continueButton);
+  handleChoice(state, answersElement, submitButton, choiceItemID);
+  handleSubmit(state, headerElement, questionElement, submitButton, continueButton);
   handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton)
 });
 
