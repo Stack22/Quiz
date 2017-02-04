@@ -12,6 +12,10 @@
   margin: 0 auto;
 }
 
+.radio {
+  display: inline-block;
+}
+
 #answers, #question {
   max-width: 80%;
   margin-left: auto;

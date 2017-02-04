@@ -2,7 +2,7 @@
 var state = {
   questions: [
     {
-      question: "Understeer can happen under braking, or accelleration. What definition below BEST describes understeer?"
+      question: "Understeer can happen under braking, or accelleration. What definition below BEST describes understeer?",
       answers: ["The need to turn the steering wheel more", "When steering input has little to no affect on vehicle direction", "When the front tires are pushed beyong their grip limit, necessitating further driving input adjustments", "When the front of the car hits the wall"],
       correctAnsIndex: 2
     },
@@ -34,8 +34,10 @@ var state = {
   route: "start",
   lastAnswerCorrect: false,
   feedbackRandom: 0
-];
+};
 
+var choiceTemplate =
+  '<label class="choice js-choice"><input type="radio" name="answer"> </label><br>'
 // Create State
 function startState() {
   // make question: 1 (or id string?)
@@ -45,8 +47,8 @@ function startState() {
 };
 
 // Read State
-function readQuestionNum() {
-  // return current question id
+function readQuestionIndex(state) {
+  return state.currentQuestionIndex
 };
 
 function readAnswer() {
@@ -85,9 +87,8 @@ function renderStart() {
   // Show start view w/start button visible
 };
 
-function renderQuestion() {
-  // remove start view/start button
-  // replace with question view
+function renderQuestion(state, element) {
+  return
 };
 
 function renderScore() {
