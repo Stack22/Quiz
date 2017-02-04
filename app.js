@@ -3,7 +3,7 @@ var state = {
   questions: [
     {
       question: "Understeer can happen under braking, or accelleration. What definition below BEST describes understeer?",
-      answers: ["The need to turn the steering wheel more", "When steering input has little to no affect on vehicle direction", "When the front tires are pushed beyong their grip limit, necessitating further driving input adjustments", "When the front of the car hits the wall"],
+      answers: ["The need to turn the steering wheel more", "When steering input has little to no affect on vehicle direction", "When the front tires are pushed beyond their grip limit, necessitating further driving input adjustments", "When the front of the car goes off track first"],
       correctAnsIndex: 2
     },
     {
@@ -75,7 +75,7 @@ function updateQuestionIndex(state) {
 };
 
 function renderHeader(state, headerElement) {
-  var content = "Question " + (state.currentQuestionIndex) + " of " + state.questions.length;
+  var content = "Question " + (state.currentQuestionIndex + 1) + " of " + state.questions.length;
   headerElement.html(content);
 }
 // Render
@@ -113,20 +113,25 @@ function hideButton(button) {
 // Handle
 function handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton) {
   startButton.click(function(event) {
+    resetState(state);
     startTextElement.addClass("hidden");
-    updateQuestionIndex(state);
     renderHeader(state, headerElement);
     headerElement.removeClass("hidden");
     renderQuestion(state, questionElement);
     renderAnswers(state, answersElement);
     showButton(submitButton);
     hideButton(startButton);
+    updateQuestionIndex(state);
   });
-  // renderQuestion()
-  // renderButton()
 };
 
-function handleSubmit() {
+function handleSubmit(state, headerElement, questionElement, answersElement, submitButton) {
+  submitButton.click(function(event) {
+    renderHeader(state, headerElement);
+    renderQuestion(state, questionElement);
+    renderAnswers(state, answersElement);
+    updateQuestionIndex(state);
+  });
   // updateCorrect()
   // updateIncorrect()
   // renderButton()
@@ -148,19 +153,19 @@ function handleFinish() { // if/else?
 */
 
 // On Page Load
-$(function() {
-  var startTextElement = $(".js-start-text");
-  var headerElement = $(".js-header");
-  var questionElement = $(".js-question-element");
-  var answersElement = $(".js-answers-element");
-  var buttonsElement = $(".js-buttons-element");
-  var startButton = $("#js-start");
-  var submitButton = $("#js-submit");
-  var continueButton = $("#js-continue");
-  var finishButton = $("#js-finish");
+var startTextElement = $(".js-start-text");
+var headerElement = $(".js-header");
+var questionElement = $(".js-question-element");
+var answersElement = $(".js-answers-element");
+var buttonsElement = $(".js-buttons-element");
+var startButton = $("#js-start");
+var submitButton = $("#js-submit");
+var continueButton = $("#js-continue");
+var finishButton = $("#js-finish");
 
+$(function() {
   handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton);
-  handleSubmit(state, submitButton, headerElement, questionElement, answersElement, continueButton, finishButton);
+  handleSubmit(state, headerElement, questionElement, answersElement, submitButton);
 });
 
 // var questionIndex = readQuestionIndex(state);
