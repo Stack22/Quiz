@@ -79,14 +79,19 @@ function renderHeader(state, headerElement) {
   headerElement.html(content);
 }
 // Render
-function renderStart() {
-  // Show start view w/start button visible
-};
 
 function renderQuestion(state, questionElement) {
   var content = "<p>" + state.questions[state.currentQuestionIndex].question + "</p>";
   console.log(content);
   questionElement.html(content);
+};
+
+function renderAnswers(state, answersElement) {
+  var answersArray = state.questions[state.currentQuestionIndex].answers;
+  var content = answersArray.map(function(item) {
+    return '<label class="choice js-choice"><input type="radio" name="answer">' + item + '</label><br>';
+  });
+  answersElement.html(content);
 };
 
 function renderScore() {
@@ -102,13 +107,14 @@ function renderButton() {
 }
 
 // Handle
-function handleStart(state, startButton, startTextElement, headerElement, questionElement) {
+function handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement) {
   startButton.click(function(event) {
     startTextElement.addClass("hidden");
     updateQuestionIndex(state);
     renderHeader(state, headerElement);
     headerElement.removeClass("hidden");
     renderQuestion(state, questionElement);
+    renderAnswers(state, answersElement);
   });
   // renderQuestion()
   // renderButton()
@@ -147,7 +153,7 @@ $(function() {
   var continueButton = $("#js-continue");
   var finishButton = $("#js-finish");
 
-  handleStart(state, startButton, startTextElement, headerElement, questionElement);
+  handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement);
 });
 
 // var questionIndex = readQuestionIndex(state);
