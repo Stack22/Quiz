@@ -58,10 +58,6 @@ function readCorrectAnsIndex(state, questionIndex) {
   // return index of correct answer w/in answers array
 };
 
-function readIncorrect() {
-  // return incorrect current total
-};
-
 // Update State
 
 function resetState(state) {
@@ -78,20 +74,10 @@ function updateQuestionIndex(state) {
   // make current question id +1 (or update id string using loop int)
 };
 
-function updateAnswer() {
-  // make current answer = updated Q answer
-};
-
-function updateCorrect() {
-  // make correct total +1
-};
-
-function updateIncorrect() { // if/else?
-  // make incorrect total +1
-};
-
-// Delete State
-
+function renderHeader(state, headerElement) {
+  var content = "Question " + (state.currentQuestionIndex) + " of " + state.questions.length;
+  headerElement.html(content);
+}
 // Render
 function renderStart() {
   // Show start view w/start button visible
@@ -110,11 +96,17 @@ function renderFinalScore() { // if/else?
 };
 
 function renderButton() {
-  // toggle between Start, Submit, Next Question, Finish
+  // toggle between Start, Submit, Continue, Finish
 }
 
 // Handle
-function handleStart() {
+function handleStart(state, startButton, startTextElement, headerElement) {
+  startButton.click(function(event) {
+    startTextElement.addClass("hidden");
+    updateQuestionIndex(state);
+    renderHeader(state, headerElement);
+    headerElement.removeClass("hidden");
+  });
   // renderQuestion()
   // renderButton()
 };
@@ -142,7 +134,8 @@ function handleFinish() { // if/else?
 
 // On Page Load
 $(function() {
-  var headerElement = $(".js-header h3");
+  var startTextElement = $(".js-start-text");
+  var headerElement = $(".js-header");
   var questionElement = $(".js-question-element");
   var answersElement = $(".js-answers-element");
   var buttonsElement = $(".js-buttons-element");
@@ -150,11 +143,11 @@ $(function() {
   var submitButton = $("#js-submit");
   var continueButton = $("#js-continue");
   var finishButton = $("#js-finish");
-  startButton.click(function(event) {
-    console.log("I clicked the " + $(this).text() + " button!");
-    var questionIndex = readQuestionIndex(state);
-    console.log(readQuestion(state, questionIndex));
-    console.log(readAnswers(state, questionIndex));
-    console.log("before: " + state.currentQuestionIndex + " ... After: " + updateQuestionIndex(state));
-  });
+
+  handleStart(state, startButton, startTextElement, headerElement);
 });
+
+// var questionIndex = readQuestionIndex(state);
+// console.log(readQuestion(state, questionIndex));
+// console.log(readAnswers(state, questionIndex));
+// console.log("before: " + state.currentQuestionIndex + " ... After: " + updateQuestionIndex(state));
