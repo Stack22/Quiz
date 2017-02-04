@@ -119,26 +119,37 @@ function handleStart(state, startButton, startTextElement, headerElement, questi
     headerElement.removeClass("hidden");
     renderQuestion(state, questionElement);
     renderAnswers(state, answersElement);
-    showButton(submitButton);
     hideButton(startButton);
-    updateQuestionIndex(state);
   });
 };
 
-function handleSubmit(state, headerElement, questionElement, answersElement, submitButton) {
+function handleChoice (state, answersElement, submitButton) {
+  $(answersElement).click(function(event) {
+    showButton(submitButton);
+  });
+}
+
+function handleSubmit(state, headerElement, questionElement, answersElement, submitButton, continueButton) {
   submitButton.click(function(event) {
-    renderHeader(state, headerElement);
-    renderQuestion(state, questionElement);
-    renderAnswers(state, answersElement);
-    updateQuestionIndex(state);
+    // renderQuestion(state, questionElement);
+    // renderAnswers(state, answersElement);
+
+    hideButton(submitButton);
+    showButton(continueButton);
   });
   // updateCorrect()
   // updateIncorrect()
   // renderButton()
 };
 
-function handleContinue() {
-  //
+function handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton) {
+  continueButton.click(function(event) {
+    updateQuestionIndex(state);
+    hideButton(continueButton);
+    renderHeader(state, headerElement);
+    renderQuestion(state, questionElement);
+    renderAnswers(state, answersElement);
+  });
 };
 
 function handleFinish() { // if/else?
@@ -156,8 +167,7 @@ function handleFinish() { // if/else?
 var startTextElement = $(".js-start-text");
 var headerElement = $(".js-header");
 var questionElement = $(".js-question-element");
-var answersElement = $(".js-answers-element");
-var buttonsElement = $(".js-buttons-element");
+var answersElement = $("form[name='the-choices']");
 var startButton = $("#js-start");
 var submitButton = $("#js-submit");
 var continueButton = $("#js-continue");
@@ -165,7 +175,9 @@ var finishButton = $("#js-finish");
 
 $(function() {
   handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton);
-  handleSubmit(state, headerElement, questionElement, answersElement, submitButton);
+  handleChoice(state, answersElement, submitButton);
+  handleSubmit(state, headerElement, questionElement, answersElement, submitButton, continueButton);
+  handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton)
 });
 
 // var questionIndex = readQuestionIndex(state);
