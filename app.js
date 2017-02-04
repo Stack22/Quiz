@@ -82,7 +82,6 @@ function renderHeader(state, headerElement) {
 
 function renderQuestion(state, questionElement) {
   var content = "<p>" + state.questions[state.currentQuestionIndex].question + "</p>";
-  console.log(content);
   questionElement.html(content);
 };
 
@@ -102,12 +101,17 @@ function renderFinalScore() { // if/else?
   // show final score after final question Submit
 };
 
-function renderButton() {
+function showButton(button) {
+    button.removeClass("hidden");
   // toggle between Start, Submit, Continue, Finish
-}
+};
+
+function hideButton(button) {
+  button.addClass("hidden");
+};
 
 // Handle
-function handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement) {
+function handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton) {
   startButton.click(function(event) {
     startTextElement.addClass("hidden");
     updateQuestionIndex(state);
@@ -115,6 +119,8 @@ function handleStart(state, startButton, startTextElement, headerElement, questi
     headerElement.removeClass("hidden");
     renderQuestion(state, questionElement);
     renderAnswers(state, answersElement);
+    showButton(submitButton);
+    hideButton(startButton);
   });
   // renderQuestion()
   // renderButton()
@@ -153,7 +159,8 @@ $(function() {
   var continueButton = $("#js-continue");
   var finishButton = $("#js-finish");
 
-  handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement);
+  handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton);
+  handleSubmit(state, submitButton, headerElement, questionElement, answersElement, continueButton, finishButton);
 });
 
 // var questionIndex = readQuestionIndex(state);
