@@ -38,13 +38,6 @@ var state = {
 
 var choiceTemplate =
   '<label class="choice js-choice"><input type="radio" name="answer"> </label><br>'
-// Create State
-function startState() {
-  // make question: 1 (or id string?)
-  // make answer: answer string
-  // make correct: 0
-  // make incorrect: 0
-};
 
 // Read State
 function readQuestionIndex(state) {
@@ -79,7 +72,9 @@ function resetState(state) {
   state.feedbackRandom = 0;
   return state;
 }
-function updateQuestionNum() {
+function updateQuestionIndex(state) {
+  state.currentQuestionIndex++;
+  return state.currentQuestionIndex;
   // make current question id +1 (or update id string using loop int)
 };
 
@@ -160,5 +155,6 @@ $(function() {
     var questionIndex = readQuestionIndex(state);
     console.log(readQuestion(state, questionIndex));
     console.log(readAnswers(state, questionIndex));
+    console.log("before: " + state.currentQuestionIndex + " ... After: " + updateQuestionIndex(state));
   });
 });
