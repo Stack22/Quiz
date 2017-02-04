@@ -83,8 +83,10 @@ function renderStart() {
   // Show start view w/start button visible
 };
 
-function renderQuestion(state, element) {
-  return
+function renderQuestion(state, questionElement) {
+  var content = "<p>" + state.questions[state.currentQuestionIndex].question + "</p>";
+  console.log(content);
+  questionElement.html(content);
 };
 
 function renderScore() {
@@ -100,12 +102,13 @@ function renderButton() {
 }
 
 // Handle
-function handleStart(state, startButton, startTextElement, headerElement) {
+function handleStart(state, startButton, startTextElement, headerElement, questionElement) {
   startButton.click(function(event) {
     startTextElement.addClass("hidden");
     updateQuestionIndex(state);
     renderHeader(state, headerElement);
     headerElement.removeClass("hidden");
+    renderQuestion(state, questionElement);
   });
   // renderQuestion()
   // renderButton()
@@ -144,7 +147,7 @@ $(function() {
   var continueButton = $("#js-continue");
   var finishButton = $("#js-finish");
 
-  handleStart(state, startButton, startTextElement, headerElement);
+  handleStart(state, startButton, startTextElement, headerElement, questionElement);
 });
 
 // var questionIndex = readQuestionIndex(state);
