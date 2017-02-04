@@ -48,15 +48,21 @@ function startState() {
 
 // Read State
 function readQuestionIndex(state) {
-  return state.currentQuestionIndex
+  return state.currentQuestionIndex;
 };
 
-function readAnswer() {
-  // return answer string
+function readQuestion(state, questionIndex) {
+  return state.questions[questionIndex].question;
 };
 
-function readCorrect() {
-  // return correct current total
+function readAnswers(state, questionIndex) {
+  return state.questions[questionIndex].answers;
+  // returns array of answers
+};
+
+function readCorrectAnsIndex(state, questionIndex) {
+  return state.questions[questionIndex].correctAnsIndex;
+  // return index of correct answer w/in answers array
 };
 
 function readIncorrect() {
@@ -64,6 +70,15 @@ function readIncorrect() {
 };
 
 // Update State
+
+function resetState(state) {
+  state.correctTotal = 0;
+  state.currentQuestionIndex = 0;
+  state.route = "start";
+  state.lastAnswerCorrect = false;
+  state.feedbackRandom = 0;
+  return state;
+}
 function updateQuestionNum() {
   // make current question id +1 (or update id string using loop int)
 };
@@ -131,3 +146,19 @@ function handleFinish() { // if/else?
 */
 
 // On Page Load
+$(function() {
+  var headerElement = $(".js-header h3");
+  var questionElement = $(".js-question-element");
+  var answersElement = $(".js-answers-element");
+  var buttonsElement = $(".js-buttons-element");
+  var startButton = $("#js-start");
+  var submitButton = $("#js-submit");
+  var continueButton = $("#js-continue");
+  var finishButton = $("#js-finish");
+  startButton.click(function(event) {
+    console.log("I clicked the " + $(this).text() + " button!");
+    var questionIndex = readQuestionIndex(state);
+    console.log(readQuestion(state, questionIndex));
+    console.log(readAnswers(state, questionIndex));
+  });
+});

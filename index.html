@@ -10,23 +10,24 @@
       <div class="title">
         <h2>High Performance Driving Quiz</h2>
       </div>
-      <div class="questions-header">
+      <div class="js-header">
         <h3>Question x of y</h3>
       </div>
 
       <div class="question-container">
-        <div id="question-element">
-          <p></p>
+        <div id="question-element js-question-element">
+
         </div>
 
-        <div id="answers-element">
-          <label class="choice"><input type="radio" name="answer"> </label><br>
+        <div id="answers-element js-answers-element">
+
         </div>
 
-        <div class="Button-container">
-          <button type="button" name="start" ><label for="submit">Start Quiz</label></button>
-          <button type="Submit" name="submit" class="hidden"><label for="submit">Submit Answer</label></button>
-          <button type="button" name="continue" class="hidden"><label for="button">Continue</label></button>
+        <div class="Button-container js-buttons-element">
+          <button type="button" name="start" id="js-start"><label for="submit">Start Quiz</label></button>
+          <button type="Submit" name="submit" class="hidden" id="js-submit"><label for="submit">Submit Answer</label></button>
+          <button type="button" name="continue" class="hidden" id="js-continue"><label for="button">Continue</label></button>
+          <button type="button" name="finsh" class="hidden" id="js-finsh"><label for="button">Finish</label></button>
         </div>
       </div>
   </div>
