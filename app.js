@@ -132,12 +132,11 @@ function renderResult(resultsElement, isCorrect) {
       // resultsElement.removeClass(".hidden");
       resultsElement.html(content);
     };
-
 };
 
-function renderFinalScore(state) {
+function renderFinalScore(state, resultsElement) {
   var content = '<div id="finalScore"><h2 class="resultsText">Final score: ' + state.correctTotal + ' correct, ' + state.incorrectTotal + ' incorrect</h2></div>';
-  return content;
+  resultsElement.html(content);;
 };
 
 function showButton(button) {
@@ -166,7 +165,7 @@ function handleChoice (state, answersElement, submitButton, choiceItemID) {
     state.currentChoice = getAnswerChoice(state, answersElement, choiceItemID, submitButton);
 };
 
-function handleSubmit(state, headerElement, questionElement, submitButton, continueButton, resultsElement) {
+function handleSubmit(state, headerElement, questionElement, submitButton, continueButton, finishButton, resultsElement) {
   submitButton.click(function(event) {
     var choice = state.currentChoice;
     var correctAns = readCorrectAnswer(state);
@@ -178,7 +177,13 @@ function handleSubmit(state, headerElement, questionElement, submitButton, conti
     updateScore(state, isCorrect);
     console.log("Correct: " + state.correctTotal + ", Incorrect: " + (state.incorrectTotal));
     hideButton(submitButton);
-    showButton(continueButton);
+    console.log(state.currentQuestionIndex);
+    if (state.currentQuestionIndex <= 3) {
+      showButton(continueButton);
+    } else if (state.currentQuestionIndex === 4){
+      showButton(finishButton);
+    };
+
   // need to stop event listener
   });
 };
@@ -194,8 +199,21 @@ function handleContinue(state, headerElement, questionElement, answersElement, s
   });
 };
 
-function handleFinish(state, resultsElement, finishButton, newGameButton) { // if/else?
-
+function handleFinish(state, finishButton, resultsElement, headerElement, questionElement, answersElement, newGameButton) {
+  finishButton.click(function() {
+    // hide finishButton
+    hideButton(finishButton);
+    // hide headerElement
+    hideButton(headerElement);
+    // hide questionElement
+    hideButton(questionElement);
+    // hide answersElement
+    hideButton(answersElement);
+    // renderFinalScore
+    renderFinalScore(state, resultsElement);
+    // show newGameButton
+    showButton(newGameButton);
+  });
 };
 
 // On Page Load
@@ -215,7 +233,8 @@ var newGameButton = $("#js-new-game");
 $(function() {
   handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton);
   handleChoice(state, answersElement, submitButton, choiceItemID);
-  handleSubmit(state, headerElement, questionElement, submitButton, continueButton, resultsElement);
-  handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton, resultsElement)
-  handleFinish()
+  handleSubmit(state, headerElement, questionElement, submitButton, continueButton, finishButton, resultsElement);
+  handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton, resultsElement);
+  handleFinish(state, finishButton, resultsElement, headerElement, questionElement, answersElement, newGameButton);
+  // handleNewGame();
 });
