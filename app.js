@@ -66,7 +66,7 @@ function readCorrectAnswer(state) {
 function getAnswerChoice(state, answersElement, choiceItemID, submitButton) {
   answersElement.on('click', choiceItemID, function(event) {
     var choice = $(event.currentTarget.closest('label')).text();
-    showButton(submitButton);
+    showElement(submitButton);
     state.currentChoice = choice;
     });
 };
@@ -136,13 +136,13 @@ function renderFinalScore(state, resultsElement) {
   resultsElement.html(content);;
 };
 
-function showButton(button) {
-    button.removeClass("hidden");
+function showElement(target) {
+    target.removeClass("hidden");
   // toggle between Start, Submit, Continue, Finish
 };
 
-function hideButton(button) {
-  button.addClass("hidden");
+function hideElement(target) {
+  target.addClass("hidden");
 };
 
 // Handle
@@ -154,7 +154,7 @@ function handleStart(state, startButton, startTextElement, headerElement, questi
     headerElement.removeClass("hidden");
     renderQuestion(state, questionElement);
     renderAnswers(state, answersElement);
-    hideButton(startButton);
+    hideElement(startButton);
   });
 };
 
@@ -166,19 +166,14 @@ function handleSubmit(state, headerElement, questionElement, submitButton, conti
   submitButton.click(function(event) {
     var choice = state.currentChoice;
     var correctAns = readCorrectAnswer(state);
-    console.log(choice);
-    console.log(correctAns);
     var isCorrect = checkAnswer(choice, correctAns);
-    console.log(isCorrect);
     renderResult(state, resultsElement, isCorrect);
     updateScore(state, isCorrect);
-    console.log("Correct: " + state.correctTotal + ", Incorrect: " + (state.incorrectTotal));
-    hideButton(submitButton);
-    console.log(state.currentQuestionIndex);
+    hideElement(submitButton);
     if (state.currentQuestionIndex <= 3) {
-      showButton(continueButton);
+      showElement(continueButton);
     } else if (state.currentQuestionIndex === 4){
-      showButton(finishButton);
+      showElement(finishButton);
     };
 
   // need to stop event listener
@@ -187,9 +182,9 @@ function handleSubmit(state, headerElement, questionElement, submitButton, conti
 
 function handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton, resultsElement) {
   continueButton.click(function(event) {
-    hideButton(resultsElement);
+    hideElement(resultsElement);
     updateQuestionIndex(state);
-    hideButton(continueButton);
+    hideElement(continueButton);
     renderHeader(state, headerElement);
     renderQuestion(state, questionElement);
     renderAnswers(state, answersElement);
@@ -198,12 +193,12 @@ function handleContinue(state, headerElement, questionElement, answersElement, s
 
 function handleFinish(state, finishButton, resultsElement, headerElement, questionElement, answersElement, newGameButton) {
   finishButton.click(function() {
-    hideButton(finishButton);
-    hideButton(headerElement);
-    hideButton(questionElement);
-    hideButton(answersElement);
+    hideElement(finishButton);
+    hideElement(headerElement);
+    hideElement(questionElement);
+    hideElement(answersElement);
     renderFinalScore(state, resultsElement);
-    showButton(newGameButton);
+    showElement(newGameButton);
   });
 };
 
@@ -212,6 +207,7 @@ function handleNewGame(newGameButton, resetLocation) {
     resetLocation.reload(true);
   });
 };
+
 // On Page Load
 var startTextElement = $(".js-start-text");
 var headerElement = $(".js-header");
@@ -226,7 +222,7 @@ var continueButton = $("#js-continue");
 var finishButton = $("#js-finish");
 var newGameButton = $("#js-new-game");
 var resetLocation = window.location;
-console.log(resetLocation);
+
 $(function() {
   handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton);
   handleChoice(state, answersElement, submitButton, choiceItemID);
