@@ -122,11 +122,10 @@ function renderResult(state, resultsElement, isCorrect) {
   resultsElement.removeClass("hidden");
   if (isCorrect === true) {
     var content = '<h2 id="correctStatement" class="resultsText">Great Job! That\'s correct!</h2>';
-    // resultsElement.removeClass(".hidden")
     resultsElement.html(content);
     } else {
-      content = '<h2 id="incorrectStatement" class="resultsText">Oops... maybe need to brush up on that one</h2></br>';
-      // resultsElement.removeClass(".hidden");
+      content = '<h2 id="incorrectStatement" class="resultsText">Oops... maybe need to brush up on that one</h2>' +
+      '<h3>The correct answer is: <h4><em>' + readCorrectAnswer(state) + '</h4></em></h3>';
       resultsElement.html(content);
     };
 };
