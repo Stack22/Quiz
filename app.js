@@ -14,7 +14,7 @@ var state = {
     {
       question: "What is 'The Racing Line'?",
       answers: ["Any path on the track used to gain or maintain an advantage in position or time", "the 'worn' part of any race circuit", "The line used in qualifying by top-level racers"],
-      correctAnsIndex: 2
+      correctAnsIndex: 0
     },
     {
       question: "True or False: The fastest limit around any corner involves some loss of grip",
@@ -30,6 +30,7 @@ var state = {
   praises: ["Kick ass man!", "Aaaand... Across The Line!", "Well done old chap!"],
   admonishments: ["Sorry bud, if ya ain't first, you're last", "DOH! Try harder", "Juuuuust a bit outside"],
   correctTotal: 0,
+  incorrectTotal: 0,
   currentQuestionIndex: 0,
   currentChoice: "",
   route: "start",
@@ -92,6 +93,15 @@ function updateQuestionIndex(state) {
 function checkAnswer(choice, correctAns) {
   return choice === correctAns;
 }
+
+function updateScore(state, isCorrect) {
+  if (isCorrect === true) {
+    state.correctTotal = state.correctTotal + 1;
+  } else {
+    state.incorrectTotal = state.incorrectTotal + 1;
+  };
+};
+
 // Render
 function renderHeader(state, headerElement) {
   var content = "Question " + (state.currentQuestionIndex + 1) + " of " + state.questions.length;
@@ -112,17 +122,21 @@ function renderAnswers(state, answersElement) {
 };
 
 function renderResult(resultsElement, isCorrect) {
-  var content = "";
-  if (isCorrect) {
-    content = '<h2 id="correctStatement">Great Job! That\'s correct!</h2>'
+  if (isCorrect === true) {
+    var content = '<h2 id="correctStatement" class="resultsText">Great Job! That\'s correct!</h2>'
+    resultsElement.removeClass(".hidden")
+    resultsElement.html(content);
     } else {
-      content = '<h2 id="incorrectStatement" class="hidden">Oops... maybe need to brush up on that one</h2>'
-  };
-  resultsElement.html(content);
+      content = '<h2 id="incorrectStatement" class="resultsText">Oops... maybe need to brush up on that one</h2>'
+      resultsElement.removeClass(".hidden");
+      resultsElement.html(content);
+    };
+
 };
 
-function renderFinalScore() { // if/else?
-  // show final score after final question Submit
+function renderFinalScore(state) {
+  var content = '<div id="finalScore"><h2 class="resultsText">Final score: ' + state.correctTotal + ' correct, ' + state.incorrectTotal + ' incorrect</h2></div>';
+  return content;
 };
 
 function showButton(button) {
@@ -151,20 +165,20 @@ function handleChoice (state, answersElement, submitButton, choiceItemID) {
     state.currentChoice = getAnswerChoice(state, answersElement, choiceItemID, submitButton);
 };
 
-function handleSubmit(state, headerElement, questionElement, submitButton, continueButton) {
+function handleSubmit(state, headerElement, questionElement, submitButton, continueButton, resultsElement) {
   submitButton.click(function(event) {
     var choice = state.currentChoice;
     var correctAns = readCorrectAnswer(state);
     console.log(choice);
     console.log(correctAns);
-    if (checkAnswer(choice, correctAns)) {
-      console.log("It Matches!");
-    } else {
-      console.log("It doesn't match");
-    };
     hideButton(submitButton);
     showButton(continueButton);
-
+    var isCorrect = checkAnswer(choice, correctAns);
+    console.log(isCorrect);
+    renderResult(resultsElement, isCorrect);
+    updateScore(state, isCorrect);
+    console.log("Correct: " + state.correctTotal + ", Incorrect: " + (state.incorrectTotal));
+  // need to stop event listener
   });
 };
 
@@ -179,7 +193,7 @@ function handleContinue(state, headerElement, questionElement, answersElement, s
   });
 };
 
-function handleFinish() { // if/else?
+function handleFinish(state, resultsElement, finishButton, newGameButton) { // if/else?
 
 };
 
@@ -195,15 +209,12 @@ var startButton = $("#js-start");
 var submitButton = $("#js-submit");
 var continueButton = $("#js-continue");
 var finishButton = $("#js-finish");
+var newGameButton = $("#js-new-game");
 
 $(function() {
   handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton);
   handleChoice(state, answersElement, submitButton, choiceItemID);
-  handleSubmit(state, headerElement, questionElement, submitButton, continueButton);
+  handleSubmit(state, headerElement, questionElement, submitButton, continueButton, resultsElement);
   handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton, resultsElement)
+  handleFinish()
 });
-
-// var questionIndex = readQuestionIndex(state);
-// console.log(readQuestion(state, questionIndex));
-// console.log(readAnswers(state, questionIndex));
-// console.log("before: " + state.currentQuestionIndex + " ... After: " + updateQuestionIndex(state));

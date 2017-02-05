@@ -8,13 +8,8 @@
   margin: 0 auto;
 }
 
-.quiz-position {
-  /*display: block;
-  background-color: lightgrey;
-  border: 3px, black, solid;
-  border-radius: 5px;
-  height: 30px;
-  padding-left: 5px;*/
+.hidden {
+  display: none;
 }
 
 .radio {
@@ -50,8 +45,16 @@
   background-color: pink;
 }
 
-.hidden {
-  display: none;
+#finalScore {
+  display: block;
+  padding: 10px;
+  border: 5px solid navy;
+  border-radius: 10px;
+  background-color: lightblue;
+}
+
+.resultsText {
+  text-align: center;
 }
 
 /*#continue {
