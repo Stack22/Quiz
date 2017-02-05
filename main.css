@@ -3,10 +3,6 @@
   font-family: verdana monospace;
 }
 
-.hidden {
-  display: none;
-}
-
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -38,7 +34,7 @@
   font-size: 14px;
   font-family: sans-serif;
 }
-.correct {
+#correctStatement {
   display: block;
   padding: 5px;
   border: 3px solid green;
@@ -46,12 +42,16 @@
   background-color: lightgreen;
 }
 
-.incorrect {
+#incorrectStatement {
   display: block;
   padding: 5px;
   border: 3px solid red;
   border-radius: 5px;
   background-color: pink;
+}
+
+.hidden {
+  display: none;
 }
 
 /*#continue {

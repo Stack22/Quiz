@@ -59,11 +59,17 @@ function readCorrectAnsIndex(state, questionIndex) {
   // return index of correct answer w/in answers array
 };
 
+function readCorrectAnswer(state) {
+  var quesIndex = readQuestionIndex(state);
+  var ansIndex = readCorrectAnsIndex(state, quesIndex);
+  return state.questions[quesIndex].answers[ansIndex];
+}
+
 function getAnswerChoice(state, answersElement, choiceItemID, submitButton) {
   answersElement.on('click', choiceItemID, function(event) {
     var choice = $(event.currentTarget.closest('label')).text();
-    state.currentChoice = choice;
     showButton(submitButton);
+    state.currentChoice = choice;
     });
 };
 
@@ -105,8 +111,14 @@ function renderAnswers(state, answersElement) {
   answersElement.html(content);
 };
 
-function renderScore() {
-  // show score totals after 1st question Submit
+function renderResult(resultsElement, isCorrect) {
+  var content = "";
+  if (isCorrect) {
+    content = '<h2 id="correctStatement">Great Job! That\'s correct!</h2>'
+    } else {
+      content = '<h2 id="incorrectStatement" class="hidden">Oops... maybe need to brush up on that one</h2>'
+  };
+  resultsElement.html(content);
 };
 
 function renderFinalScore() { // if/else?
@@ -136,21 +148,24 @@ function handleStart(state, startButton, startTextElement, headerElement, questi
 };
 
 function handleChoice (state, answersElement, submitButton, choiceItemID) {
-    var thisChoice = getAnswerChoice(state, answersElement, choiceItemID, submitButton);
+    state.currentChoice = getAnswerChoice(state, answersElement, choiceItemID, submitButton);
 };
 
 function handleSubmit(state, headerElement, questionElement, submitButton, continueButton) {
   submitButton.click(function(event) {
-
-    console.log(state.currentChoice);
+    var choice = state.currentChoice;
+    console.log(choice);
+    console.log(readCorrectAnswer(state));
+    
     hideButton(submitButton);
     showButton(continueButton);
 
   });
 };
 
-function handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton) {
+function handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton, resultsElement) {
   continueButton.click(function(event) {
+    hideButton(resultsElement);
     updateQuestionIndex(state);
     hideButton(continueButton);
     renderHeader(state, headerElement);
@@ -168,6 +183,7 @@ var startTextElement = $(".js-start-text");
 var headerElement = $(".js-header");
 var questionElement = $(".js-question-element");
 var answersElement = $("form[name='the-choices']");
+var resultsElement = $(".results-element");
 var choiceItemID = (".js-choice");
 
 var startButton = $("#js-start");
@@ -179,7 +195,7 @@ $(function() {
   handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton);
   handleChoice(state, answersElement, submitButton, choiceItemID);
   handleSubmit(state, headerElement, questionElement, submitButton, continueButton);
-  handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton)
+  handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton, resultsElement)
 });
 
 // var questionIndex = readQuestionIndex(state);
