@@ -3,6 +3,14 @@
   font-family: verdana monospace;
 }
 
+button {
+  margin-left: 20px;
+  margin-top: 15px;
+  width: auto;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -16,11 +24,10 @@
   display: inline-block;
 }
 
-#answers, #question {
-  max-width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+.resultsText {
+  text-align: center;
 }
+
 .choice {
   display: block;
   padding: 5px;
@@ -29,6 +36,17 @@
   font-size: 14px;
   font-family: sans-serif;
 }
+
+#question {
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: Calibri;
+  font-weight: bold;
+  font-size: 18px;
+  color: navy;
+}
+
 #correctStatement {
   display: block;
   padding: 5px;
@@ -51,19 +69,4 @@
   border: 5px solid navy;
   border-radius: 10px;
   background-color: lightblue;
-}
-
-.resultsText {
-  text-align: center;
-}
-
-/*#continue {
-  display: block;
-  border: 1px dotted black;
-  margin-left: auto;
-  margin-right: auto;
-}*/
-
-#finalScore {
-
 }

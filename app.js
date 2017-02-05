@@ -106,7 +106,7 @@ function renderHeader(state, headerElement) {
 }
 
 function renderQuestion(state, questionElement) {
-  var content = "<p>" + state.questions[state.currentQuestionIndex].question + "</p>";
+  var content = "<p id='question'>" + state.questions[state.currentQuestionIndex].question + "</p>";
   questionElement.html(content);
 };
 
