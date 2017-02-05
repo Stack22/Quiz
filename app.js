@@ -89,8 +89,8 @@ function updateQuestionIndex(state) {
   return state.currentQuestionIndex;
 };
 
-function checkAnswer(state) {
-
+function checkAnswer(choice, correctAns) {
+  return choice === correctAns;
 }
 // Render
 function renderHeader(state, headerElement) {
@@ -154,9 +154,14 @@ function handleChoice (state, answersElement, submitButton, choiceItemID) {
 function handleSubmit(state, headerElement, questionElement, submitButton, continueButton) {
   submitButton.click(function(event) {
     var choice = state.currentChoice;
+    var correctAns = readCorrectAnswer(state);
     console.log(choice);
-    console.log(readCorrectAnswer(state));
-    
+    console.log(correctAns);
+    if (checkAnswer(choice, correctAns)) {
+      console.log("It Matches!");
+    } else {
+      console.log("It doesn't match");
+    };
     hideButton(submitButton);
     showButton(continueButton);
 
