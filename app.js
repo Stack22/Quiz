@@ -38,9 +38,6 @@ var state = {
   feedbackRandom: 0
 };
 
-var choiceTemplate =
-  '<label class="choice js-choice"><input type="radio" name="answer"> </label><br>'
-
 // Read State
 function readQuestionIndex(state) {
   return state.currentQuestionIndex;
@@ -121,14 +118,14 @@ function renderAnswers(state, answersElement) {
   answersElement.html(content);
 };
 
-function renderResult(resultsElement, isCorrect) {
+function renderResult(state, resultsElement, isCorrect) {
   resultsElement.removeClass("hidden");
   if (isCorrect === true) {
-    var content = '<h2 id="correctStatement" class="resultsText">Great Job! That\'s correct!</h2>'
+    var content = '<h2 id="correctStatement" class="resultsText">Great Job! That\'s correct!</h2>';
     // resultsElement.removeClass(".hidden")
     resultsElement.html(content);
     } else {
-      content = '<h2 id="incorrectStatement" class="resultsText">Oops... maybe need to brush up on that one</h2>'
+      content = '<h2 id="incorrectStatement" class="resultsText">Oops... maybe need to brush up on that one</h2></br>';
       // resultsElement.removeClass(".hidden");
       resultsElement.html(content);
     };
@@ -173,7 +170,7 @@ function handleSubmit(state, headerElement, questionElement, submitButton, conti
     console.log(correctAns);
     var isCorrect = checkAnswer(choice, correctAns);
     console.log(isCorrect);
-    renderResult(resultsElement, isCorrect);
+    renderResult(state, resultsElement, isCorrect);
     updateScore(state, isCorrect);
     console.log("Correct: " + state.correctTotal + ", Incorrect: " + (state.incorrectTotal));
     hideButton(submitButton);
@@ -201,21 +198,20 @@ function handleContinue(state, headerElement, questionElement, answersElement, s
 
 function handleFinish(state, finishButton, resultsElement, headerElement, questionElement, answersElement, newGameButton) {
   finishButton.click(function() {
-    // hide finishButton
     hideButton(finishButton);
-    // hide headerElement
     hideButton(headerElement);
-    // hide questionElement
     hideButton(questionElement);
-    // hide answersElement
     hideButton(answersElement);
-    // renderFinalScore
     renderFinalScore(state, resultsElement);
-    // show newGameButton
     showButton(newGameButton);
   });
 };
 
+function handleNewGame(newGameButton, resetLocation) {
+  newGameButton.click(function(event) {
+    resetLocation.reload(true);
+  });
+};
 // On Page Load
 var startTextElement = $(".js-start-text");
 var headerElement = $(".js-header");
@@ -229,12 +225,13 @@ var submitButton = $("#js-submit");
 var continueButton = $("#js-continue");
 var finishButton = $("#js-finish");
 var newGameButton = $("#js-new-game");
-
+var resetLocation = window.location;
+console.log(resetLocation);
 $(function() {
   handleStart(state, startButton, startTextElement, headerElement, questionElement, answersElement, submitButton);
   handleChoice(state, answersElement, submitButton, choiceItemID);
   handleSubmit(state, headerElement, questionElement, submitButton, continueButton, finishButton, resultsElement);
   handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton, resultsElement);
   handleFinish(state, finishButton, resultsElement, headerElement, questionElement, answersElement, newGameButton);
-  // handleNewGame();
+  handleNewGame(newGameButton, resetLocation);
 });
