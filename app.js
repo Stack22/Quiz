@@ -59,6 +59,14 @@ function readCorrectAnsIndex(state, questionIndex) {
   // return index of correct answer w/in answers array
 };
 
+function getAnswerChoice(state, answersElement, choiceItemID, submitButton) {
+  answersElement.on('click', choiceItemID, function(event) {
+    var choice = $(event.currentTarget.closest('label')).text();
+    state.currentChoice = choice;
+    showButton(submitButton);
+    });
+};
+
 // Update State
 
 function resetState(state) {
@@ -68,18 +76,21 @@ function resetState(state) {
   state.lastAnswerCorrect = false;
   state.feedbackRandom = 0;
   return state;
-}
+};
+
 function updateQuestionIndex(state) {
   state.currentQuestionIndex++;
   return state.currentQuestionIndex;
-  // make current question id +1 (or update id string using loop int)
 };
 
+function checkAnswer(state) {
+
+}
+// Render
 function renderHeader(state, headerElement) {
   var content = "Question " + (state.currentQuestionIndex + 1) + " of " + state.questions.length;
   headerElement.html(content);
 }
-// Render
 
 function renderQuestion(state, questionElement) {
   var content = "<p>" + state.questions[state.currentQuestionIndex].question + "</p>";
@@ -89,7 +100,7 @@ function renderQuestion(state, questionElement) {
 function renderAnswers(state, answersElement) {
   var answersArray = state.questions[state.currentQuestionIndex].answers;
   var content = answersArray.map(function(item) {
-    return '<label class="choice js-choice"><input type="radio" name="answer" class="js-choice-item">' + item + '</label><br>';
+    return '<label class="choice js-choice-item"><input type="radio" name="answer" class="js-choice">' + item + '</label><br>';
   });
   answersElement.html(content);
 };
@@ -124,29 +135,18 @@ function handleStart(state, startButton, startTextElement, headerElement, questi
   });
 };
 
-function getAnswerChoice(state, answersElement, choiceItemID) {
-  answersElement.on('click', choiceItemID, function(event) {
-    var choice = $(event.currentTarget.closest('label')).text();
-    });
-    return choice;
-}
-
 function handleChoice (state, answersElement, submitButton, choiceItemID) {
-    console.log(getAnswerChoice(state, answersElement, choiceItemID));
-    showButton(submitButton);
+    var thisChoice = getAnswerChoice(state, answersElement, choiceItemID, submitButton);
 };
 
 function handleSubmit(state, headerElement, questionElement, submitButton, continueButton) {
-
   submitButton.click(function(event) {
+
+    console.log(state.currentChoice);
     hideButton(submitButton);
     showButton(continueButton);
 
-    // checkAnswer(state, choice)
   });
-  // updateCorrect()
-  // updateIncorrect()
-  // renderButton()
 };
 
 function handleContinue(state, headerElement, questionElement, answersElement, submitButton, continueButton) {
@@ -163,19 +163,12 @@ function handleFinish() { // if/else?
 
 };
 
-/* Event Listeners
-  - On Start Click
-  - On Submit Click
-  - On Continue Click
-  - On New Quiz Click
-*/
-
 // On Page Load
 var startTextElement = $(".js-start-text");
 var headerElement = $(".js-header");
 var questionElement = $(".js-question-element");
 var answersElement = $("form[name='the-choices']");
-var choiceItemID = (".js-choice-item");
+var choiceItemID = (".js-choice");
 
 var startButton = $("#js-start");
 var submitButton = $("#js-submit");
